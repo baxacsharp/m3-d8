@@ -75,8 +75,16 @@
       <div  class="container text-center my-4">
           <h1>My Created Products</h1>
           <h2>Products Lists</h2>
+          
           <div id="container" class="container">
             <div id="group" class="row">
+              <div
+          id="loadingSpinner"
+          class="spinner-border text-primary d-none"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
               
               
             </div>
@@ -90,13 +98,15 @@
               const link="https://striveschool-api.herokuapp.com/api/product/"
               let products=document.getElementById("group")
               try{
+                document.getElementById("loadingSpinner").classList.toggle("d-none");
                   let response = await fetch(link, {
                     headers: {
-                      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDUyMDY5NDg5YzI2ZjAwMTU3ZjljNDgiLCJpYXQiOjE2MTU5ODgzNzMsImV4cCI6MTYxNzE5Nzk3M30.uy4Q3x5Z3jvNo3UzySpoTzhZEEclkq6VW__G-YtE_lg"
+                      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDUyMDY5NDg5YzI2ZjAwMTU3ZjljNDgiLCJpYXQiOjE2MTYwNzU2MzAsImV4cCI6MTYxNzI4NTIzMH0.6WHiiSsvslsvWJv74YYkpWZo9cVBHsZ5tIKwtUCef_E"
                     }
                   })
                   let data = await response.json()
                   console.log(data)
+                  document.getElementById("loadingSpinner").classList.toggle("d-none");
                   if(data.length >0){
                       data.forEach((event) => {
                           /*let cards = document.createElement("div")
@@ -121,7 +131,7 @@
                           products.appendChild(cards)*/
 
                           products.innerHTML += /*html*/`
-                            <div id='card' class="card col col-sm-4 col-md-4">
+                            <div id='card' class="card col col-sm-12 col-md-4">
                               <div class="card-img-top">
                                 <img src="${event.imageUrl}" class='img-fluid'>
                               </div>  
@@ -132,7 +142,9 @@
                                 
                                 <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                <button type='button' class="btn btn-sm btn-outline-secondary" syle="d-none"><i class="fas fa-cart-plus"></i></button>
+                                <button type='button' class="btn btn-sm btn-outline-secondary" style="display: none"><i class="fas fa-cart-plus">Add to Cart</i></button>
+                                <a href="detail.html?id=${event._id}"><button type='button' class="btn btn-sm btn-outline-secondary" >Details</button></a>
+                               
                                 <p class="card-text"><small class="text-muted">${event.price}</small></p>
 
                               </div>
